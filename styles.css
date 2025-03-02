@@ -1,3 +1,4 @@
+/* Estilos gerais do corpo da página */
 body {
     font-family: sans-serif;
     margin: 0;
@@ -5,15 +6,18 @@ body {
     text-align: center;
 }
 
+/* Estilos do título principal (h1) */
 h1 {
     color: #333;
     font-size: 1.8em;
 }
 
+/* Estilos da seção de botões de apartamentos */
 .apartment-section {
     margin-top: 30px;
 }
 
+/* Estilos dos botões de apartamentos */
 .apartment-button {
     padding: 10px 15px;
     margin: 5px;
@@ -23,22 +27,25 @@ h1 {
     font-size: 1em;
 }
 
+/* Estilos da lista de arquivos */
 .file-list {
     list-style: none;
     padding: 0;
     margin-top: 20px;
 }
 
+/* Estilos dos itens da lista de arquivos */
 .file-list li {
     margin: 5px 0;
 }
 
+/* Estilos dos links na lista de arquivos */
 .file-list a {
     text-decoration: none;
     color: #007bff;
 }
 
-/* 🔹 Logo do Condomínio */
+/* Estilos do logo do condomínio */
 .logo {
     display: block;
     width: 150px !important;
@@ -46,14 +53,14 @@ h1 {
     border-radius: 50%;
     object-fit: cover;
     position: absolute;
-    top: 5px;  /* 🔹 Alterado de 15px para 5px */
-    left: 5px; /* 🔹 Alterado de 15px para 5px */
+    top: 5px;
+    left: 5px;
     max-width: 150px !important;
     max-height: 150px !important;
     border: 2px solid red;
 }
 
-/* 🔹 Caixa da lista de arquivos */
+/* Estilos da caixa da lista de arquivos */
 .file-box {
     position: absolute;
     top: 250px;
@@ -69,13 +76,14 @@ h1 {
     transition: opacity 0.4s ease, transform 0.3s ease, border-color 0.4s ease;
 }
 
+/* Estilos da caixa da lista de arquivos quando ativa */
 .file-box.active {
     opacity: 1;
     transform: scale(1);
     border-color: #555;
 }
 
-/* 🔹 Painel do visualizador de PDF */
+/* Estilos do painel do visualizador de PDF */
 .viewer-box {
     position: absolute;
     top: 250px;
@@ -92,20 +100,21 @@ h1 {
     transition: opacity 0.4s ease, transform 0.3s ease, border-color 0.4s ease;
 }
 
+/* Estilos do painel do visualizador de PDF quando ativo */
 .viewer-box.active {
     opacity: 1;
     transform: scale(1);
     border-color: #555;
 }
 
-/* 🔹 Ajuste do iframe */
+/* Estilos do iframe do visualizador de arquivos */
 #file-viewer {
     width: 100%;
     height: 300px;
     border: none;
 }
 
-/* 🔹 Botão de download */
+/* Estilos do botão de download */
 .download-btn {
     display: block;
     margin-top: 10px;
@@ -118,13 +127,13 @@ h1 {
     transition: background-color 0.3s ease;
 }
 
+/* Estilos do botão de download no hover */
 .download-btn:hover {
     background-color: #0056b3;
 }
 
-/* 🔹 RESPONSIVIDADE SOMENTE PARA CELULAR 📱 */
+/* Estilos responsivos para dispositivos móveis (largura máxima de 768px) */
 @media (max-width: 768px) {
-    /* 🔹 Reduzindo o logo para metade do tamanho atual */
     .logo {
         width: 50px !important;
         height: 50px !important;
@@ -146,17 +155,15 @@ h1 {
         padding: 12px;
     }
 
-    /* 🔹 Ajuste da lista de arquivos para caber corretamente na tela */
     .file-box {
         position: relative;
         top: 10px;
         left: 5px;
         right: 5px;
-        width: auto; /* 🔹 Agora a largura se ajusta automaticamente */
+        width: auto;
         margin: 0 auto;
     }
 
-    /* 🔹 O visualizador agora aparece exatamente abaixo da lista e alinhado */
     .viewer-box {
         position: relative;
         top: 0;
