@@ -11,7 +11,7 @@
         // Importação das funções necessárias do Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
         import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
-        import { getDatabase, ref, set, push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
         // Configuração do Firebase com as credenciais do projeto
         const firebaseConfig = {
@@ -36,25 +36,35 @@
 
         // Função para registrar acessos no Firebase com horário correto (UTC-3)
         function logAccess(userCode, userName, apartment, accessedDocument) {
-            // Obtém a data e hora atuais e ajusta para UTC-3
-            let now = new Date();
+            // Captura a data e hora atuais
+            const now = new Date();
+
+            // Ajusta o horário para o fuso horário de Brasília (UTC-3)
             now.setHours(now.getHours() - 3);
 
-            // Cria o objeto de log com os dados do download
+            // Formata a data e hora para um formato seguro para nome de arquivo
+            const formattedDate = now.toISOString().replace('T', '_').split('.')[0];
+
+            // Cria o nome do arquivo de log com informações do usuário e data
+            let fileName = `${userName}_Acesso_apartamento_${apartment}_${accessedDocument}_${userCode}_${formattedDate}`;
+            // Remove caracteres inválidos do nome do arquivo
+            fileName = fileName.replace(/[^a-zA-Z0-9_-]/g, '_');
+
+            // Cria o objeto de log com os dados do acesso
             const accessLog = {
-                userName: userName,
-                apartment: apartment,
-                downloadedFile: accessedDocument,
                 userCode: userCode,
-                accessDateTime: now.toISOString()
+                userName: userName,
+                apartment: `Acesso ao apartamento ${apartment}`,
+                accessedDocument: accessedDocument,
+                accessDate: now.toISOString() // Salva a data já no fuso horário de Brasília
             };
 
-            // Cria uma referência para a coleção de logs no Firebase
-            const logsRef = ref(db, 'logs/');
-            // Adiciona o log ao Firebase
-            push(logsRef, accessLog)
-                .then(() => console.log('Log registrado com sucesso:', accessLog))
-                .catch(error => console.error('Erro ao registrar o log:', error));
+            // Cria uma referência no banco de dados do Firebase para o log
+            const logRef = ref(db, `logs/${fileName}`);
+            // Salva o log no Firebase
+            set(logRef, accessLog)
+                .then(() => console.log("Log registrado com horário correto:", now.toISOString()))
+                .catch(error => console.error("Erro ao registrar log:", error));
         }
 
         // Disponibiliza a função logAccess para ser usada no script.js
