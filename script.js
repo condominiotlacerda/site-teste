@@ -156,7 +156,7 @@ function getFilesForApartment(apartment) {
 
         files.push({ name: 'Boleto Condomínio 1B', path: `${baseUrl}boletos/2025/3.mar/boleto_tx_condominio_apto_1b.pdf` });
         files.push({ name: 'Boleto Acordo M2D 1B', path: `${baseUrl}boletos/2025/3.mar/boleto_tx_acordo_m2d_apto_1b.pdf` });
-        files.push({ name: 'Boleto Hidro/Eletr 1B', path: `${baseUrl}boletos/2025/3.mar}_apto_1b.pdf` });
+        files.push({ name: 'Boleto Hidro/Eletr 1B', path: `${baseUrl}boletos/2025/3.mar/_apto_1b.pdf` });
     }
 
     // Adiciona a prestação de contas uma única vez
