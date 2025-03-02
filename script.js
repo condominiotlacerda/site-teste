@@ -188,7 +188,8 @@ window.logAccess = function (userCode, userName, downloadedFile, apartment) {
         apartment: apartment,
         downloadedFile: downloadedFile,
         userCode: userCode,
-        accessDateTime: now.toISOString()
+        accessDateTime: now.toISOString(),
+        prefixo: "teste" // Adiciona o prefixo "teste"
     };
 
     // Cria uma referência para a coleção de logs no Firebase
