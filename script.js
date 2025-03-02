@@ -143,9 +143,9 @@ function getFilesForApartment(apartment) {
     const baseUrl = 'pdfs/';
     // Define a lista de arquivos padrão
     let files = [
-        { name: 'Boleto Condomínio', path: `${baseUrl}boletos/2025/3.mar/boleto_tx_condominio_apto_${apartment}.pdf` },
-        { name: 'Boleto Acordo M2D', path: `${baseUrl}boletos/2025/3.mar/boleto_tx_acordo_m2d_apto_${apartment}.pdf` },
-        { name: 'Boleto Hidro/Eletr', path: `${baseUrl}boletos/2025/3.mar/boleto_tx_hidro_eletr_apto_${apartment}.pdf` }
+        { name: 'Boleto Condomínio', path: `<span class="math-inline">\{baseUrl\}boletos/2025/3\.mar/boleto\_tx\_condominio\_apto\_</span>{apartment}.pdf` },
+        { name: 'Boleto Acordo M2D', path: `<span class="math-inline">\{baseUrl\}boletos/2025/3\.mar/boleto\_tx\_acordo\_m2d\_apto\_</span>{apartment}.pdf` },
+        { name: 'Boleto Hidro/Eletr', path: `<span class="math-inline">\{baseUrl\}boletos/2025/3\.mar/boleto\_tx\_hidro\_eletr\_apto\_</span>{apartment}.pdf` }
     ];
 
     // Verifica se o apartamento é 1 e adiciona arquivos específicos
@@ -156,7 +156,7 @@ function getFilesForApartment(apartment) {
 
         files.push({ name: 'Boleto Condomínio 1B', path: `${baseUrl}boletos/2025/3.mar/boleto_tx_condominio_apto_1b.pdf` });
         files.push({ name: 'Boleto Acordo M2D 1B', path: `${baseUrl}boletos/2025/3.mar/boleto_tx_acordo_m2d_apto_1b.pdf` });
-        files.push({ name: 'Boleto Hidro/Eletr 1B', path: `${baseUrl}boletos/2025/3.mar/_apto_1b.pdf` });
+        files.push({ name: 'Boleto Hidro/Eletr 1B', path: `${baseUrl}boletos/2025/3.mar/boleto_tx_hidro_eletr_apto_1b.pdf` });
     }
 
     // Adiciona a prestação de contas uma única vez
@@ -172,29 +172,3 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("apto202").disabled = true;
     document.getElementById("apto301").disabled = true;
 });
-
-// Função para registrar o download de arquivos no Firebase (ajustada para UTC-3)
-window.logAccess = function (userCode, userName, downloadedFile, apartment) {
-    // Obtém a instância do banco de dados do Firebase
-    const db = getDatabase();
-
-    // Obtém a data e hora atuais e ajusta para UTC-3
-    let now = new Date();
-    now.setHours(now.getHours() - 3);
-
-    // Cria o objeto de log com os dados do download
-    const accessLog = {
-        userName: userName,
-        apartment: apartment,
-        downloadedFile: downloadedFile,
-        userCode: userCode,
-        accessDateTime: now.toISOString()
-    };
-
-    // Cria uma referência para a coleção de logs no Firebase
-    const logsRef = ref(db, 'logs/');
-    // Adiciona o log ao Firebase
-    push(logsRef, accessLog)
-        .then(() => console.log('Log registrado com sucesso:', accessLog))
-        .catch(error => console.error('Erro ao registrar o log:', error));
-};
