@@ -188,12 +188,11 @@ window.logAccess = function (userCode, userName, downloadedFile, apartment) {
         apartment: apartment,
         downloadedFile: downloadedFile,
         userCode: userCode,
-        accessDateTime: now.toISOString(),
-        prefixo: "teste" // Adiciona o prefixo "teste"
+        accessDateTime: now.toISOString()
     };
 
     // Cria uma referência para a coleção de logs no Firebase
-    const logsRef = ref(db, 'logs/');
+    const logsRef = ref(db, 'test/');
     // Adiciona o log ao Firebase
     push(logsRef, accessLog)
         .then(() => console.log('Log registrado com sucesso:', accessLog))
