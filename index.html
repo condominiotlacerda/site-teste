@@ -8,60 +8,67 @@
     <script src="script.js" defer></script>
     <script type="module">
         // ==================== 🔥 INÍCIO FIREBASE 🔥 ====================
+        // Importação das funções necessárias do Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
         import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
         import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
+        // Configuração do Firebase com as credenciais do projeto
         const firebaseConfig = {
-          apiKey: "AIzaSyBzgHcrZNvCQEunq-d3LeDm0u4LDhwjDgM",
-          authDomain: "logsite-d81dd.firebaseapp.com",
-          databaseURL: "https://logsite-d81dd-default-rtdb.firebaseio.com",
-          projectId: "logsite-d81dd",
-          storageBucket: "logsite-d81dd.firebasestorage.app",
-          messagingSenderId: "285508603780",
-          appId: "1:285508603780:web:dba70ace036ee8a37297d1",
-          measurementId: "G-B0JHRHTNKF"
+            apiKey: "AIzaSyBzgHcrZNvCQEunq-d3LeDm0u4LDhwjDgM",
+            authDomain: "logsite-d81dd.firebaseapp.com",
+            databaseURL: "https://logsite-d81dd-default-rtdb.firebaseio.com",
+            projectId: "logsite-d81dd",
+            storageBucket: "logsite-d81dd.firebasestorage.app",
+            messagingSenderId: "285508603780",
+            appId: "1:285508603780:web:dba70ace036ee8a37297d1",
+            measurementId: "G-B0JHRHTNKF"
         };
 
+        // Inicialização do aplicativo Firebase com a configuração fornecida
         const app = initializeApp(firebaseConfig);
+        // Inicialização do serviço de analytics do Firebase
         const analytics = getAnalytics(app);
+        // Inicialização do serviço de banco de dados em tempo real do Firebase
         const db = getDatabase();
 
-        // Registra o evento de visualização da página
+        // Registra o evento de visualização da página no Firebase Analytics
         logEvent(analytics, 'page_view');
 
         // Função para registrar acessos no Firebase com horário correto (UTC-3)
         function logAccess(userCode, userName, apartment, accessedDocument) {
-            // Captura a data atual
+            // Captura a data e hora atuais
             const now = new Date();
-            
-            // Ajusta para o horário de Brasília (UTC-3)
+
+            // Ajusta o horário para o fuso horário de Brasília (UTC-3)
             now.setHours(now.getHours() - 3);
 
-            // Converte a data para um formato seguro
+            // Formata a data e hora para um formato seguro para nome de arquivo
             const formattedDate = now.toISOString().replace('T', '_').split('.')[0];
 
-            // Define o nome do arquivo de log
+            // Cria o nome do arquivo de log com informações do usuário e data
             let fileName = `${userName}_Acesso_apartamento_${apartment}_${accessedDocument}_${userCode}_${formattedDate}`;
-            fileName = fileName.replace(/[^a-zA-Z0-9_-]/g, '_'); // Remove caracteres inválidos
+            // Remove caracteres inválidos do nome do arquivo
+            fileName = fileName.replace(/[^a-zA-Z0-9_-]/g, '_');
 
-            // Criação do objeto de log
+            // Cria o objeto de log com os dados do acesso
             const accessLog = {
                 userCode: userCode,
                 userName: userName,
                 apartment: `Acesso ao apartamento ${apartment}`,
                 accessedDocument: accessedDocument,
-                accessDate: now.toISOString() // Salvo já no fuso horário de Brasília
+                accessDate: now.toISOString() // Salva a data já no fuso horário de Brasília
             };
 
-            // Grava o log no Firebase com o nome formatado corretamente
+            // Cria uma referência no banco de dados do Firebase para o log
             const logRef = ref(db, `logs/${fileName}`);
+            // Salva o log no Firebase
             set(logRef, accessLog)
                 .then(() => console.log("Log registrado com horário correto:", now.toISOString()))
                 .catch(error => console.error("Erro ao registrar log:", error));
         }
 
-        // Disponibiliza a função para uso no script.js
+        // Disponibiliza a função logAccess para ser usada no script.js
         window.logAccess = logAccess;
 
         // ==================== 🔥 FIM FIREBASE 🔥 ====================
