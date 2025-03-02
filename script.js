@@ -143,9 +143,9 @@ function getFilesForApartment(apartment) {
     const baseUrl = 'pdfs/';
     // Define a lista de arquivos padrão
     let files = [
-        { name: 'Boleto Condomínio', path: `<span class="math-inline">\{baseUrl\}boletos/2025/3\.mar/boleto\_tx\_condominio\_apto\_</span>{apartment}.pdf` },
-        { name: 'Boleto Acordo M2D', path: `<span class="math-inline">\{baseUrl\}boletos/2025/3\.mar/boleto\_tx\_acordo\_m2d\_apto\_</span>{apartment}.pdf` },
-        { name: 'Boleto Hidro/Eletr', path: `<span class="math-inline">\{baseUrl\}boletos/2025/3\.mar/boleto\_tx\_hidro\_eletr\_apto\_</span>{apartment}.pdf` }
+        { name: 'Boleto Condomínio', path: `${baseUrl}boletos/2025/3.mar/boleto_tx_condominio_apto_${apartment}.pdf` },
+        { name: 'Boleto Acordo M2D', path: `${baseUrl}boletos/2025/3.mar/boleto_tx_acordo_m2d_apto_${apartment}.pdf` },
+        { name: 'Boleto Hidro/Eletr', path: `${baseUrl}boletos/2025/3.mar/boleto_tx_hidro_eletr_apto_${apartment}.pdf` }
     ];
 
     // Verifica se o apartamento é 1 e adiciona arquivos específicos
