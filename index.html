@@ -7,22 +7,21 @@
     <title>Condomínio T Lacerda - Boletos e Contas</title>
     <script src="script.js" defer></script>
     <script type="module">
-        // ==================== 🔥 INÍCIO FIREBASE 🔥 ====================
+        // ====================  INÍCIO FIREBASE  ====================
         // Importação das funções necessárias do Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
         import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+        import { getDatabase, ref, set, push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
         // Configuração do Firebase com as credenciais do projeto
         const firebaseConfig = {
-            apiKey: "AIzaSyBzgHcrZNvCQEunq-d3LeDm0u4LDhwjDgM",
-            authDomain: "logsite-d81dd.firebaseapp.com",
-            databaseURL: "https://logsite-d81dd-default-rtdb.firebaseio.com",
-            projectId: "logsite-d81dd",
-            storageBucket: "logsite-d81dd.firebasestorage.app",
-            messagingSenderId: "285508603780",
-            appId: "1:285508603780:web:dba70ace036ee8a37297d1",
-            measurementId: "G-B0JHRHTNKF"
+            apiKey: "AIzaSyD0Rlx95lnJRWVJgYZHCmuHXCc9yq9Ormg",
+            authDomain: "logsiteteste-3df62.firebaseapp.com",
+            projectId: "logsiteteste-3df62",
+            storageBucket: "logsiteteste-3df62.firebasestorage.app",
+            messagingSenderId: "927599674940",
+            appId: "1:927599674940:web:e349fb44da02c9063e6539",
+            measurementId: "G-DENXZXG0HE"
         };
 
         // Inicialização do aplicativo Firebase com a configuração fornecida
@@ -30,48 +29,38 @@
         // Inicialização do serviço de analytics do Firebase
         const analytics = getAnalytics(app);
         // Inicialização do serviço de banco de dados em tempo real do Firebase
-        const db = getDatabase();
+        const db = getDatabase(app);
 
         // Registra o evento de visualização da página no Firebase Analytics
         logEvent(analytics, 'page_view');
 
         // Função para registrar acessos no Firebase com horário correto (UTC-3)
         function logAccess(userCode, userName, apartment, accessedDocument) {
-            // Captura a data e hora atuais
-            const now = new Date();
-
-            // Ajusta o horário para o fuso horário de Brasília (UTC-3)
+            // Obtém a data e hora atuais e ajusta para UTC-3
+            let now = new Date();
             now.setHours(now.getHours() - 3);
 
-            // Formata a data e hora para um formato seguro para nome de arquivo
-            const formattedDate = now.toISOString().replace('T', '_').split('.')[0];
-
-            // Cria o nome do arquivo de log com informações do usuário e data
-            let fileName = `${userName}_Acesso_apartamento_${apartment}_${accessedDocument}_${userCode}_${formattedDate}`;
-            // Remove caracteres inválidos do nome do arquivo
-            fileName = fileName.replace(/[^a-zA-Z0-9_-]/g, '_');
-
-            // Cria o objeto de log com os dados do acesso
+            // Cria o objeto de log com os dados do download
             const accessLog = {
-                userCode: userCode,
                 userName: userName,
-                apartment: `Acesso ao apartamento ${apartment}`,
-                accessedDocument: accessedDocument,
-                accessDate: now.toISOString() // Salva a data já no fuso horário de Brasília
+                apartment: apartment,
+                downloadedFile: accessedDocument,
+                userCode: userCode,
+                accessDateTime: now.toISOString()
             };
 
-            // Cria uma referência no banco de dados do Firebase para o log
-            const logRef = ref(db, `logs/${fileName}`);
-            // Salva o log no Firebase
-            set(logRef, accessLog)
-                .then(() => console.log("Log registrado com horário correto:", now.toISOString()))
-                .catch(error => console.error("Erro ao registrar log:", error));
+            // Cria uma referência para a coleção de logs no Firebase
+            const logsRef = ref(db, 'logs/');
+            // Adiciona o log ao Firebase
+            push(logsRef, accessLog)
+                .then(() => console.log('Log registrado com sucesso:', accessLog))
+                .catch(error => console.error('Erro ao registrar o log:', error));
         }
 
         // Disponibiliza a função logAccess para ser usada no script.js
         window.logAccess = logAccess;
 
-        // ==================== 🔥 FIM FIREBASE 🔥 ====================
+        // ====================  FIM FIREBASE  ====================
     </script>
 </head>
 <body>
